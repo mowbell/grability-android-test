@@ -3,8 +3,10 @@ package com.grability.android.test.database;
 import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
 import com.grability.android.test.vo.ApplicationVO;
@@ -14,11 +16,13 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
     /** Database name. */
     private static final String DB_NAME = "appsdatastore";
     /** Database version. */
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 4;
 
     private static final String TABLE_CATEGORY = "CATEGORY";
     private static final String TABLE_APPLICATION = "APPLICATION";
 
+
+    public static final String COL_ROW_ID = "_id";
     public static final String COL_CATEGORY_ID = "ID";
     public static final String COL_CATEGORY_LABEL = "LABEL";
 
@@ -35,8 +39,9 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String CREATE_TABLE_CATEGORY_QUERY =
             "CREATE TABLE IF NOT EXISTS " + TABLE_CATEGORY +
-                    "(" +
-                    COL_CATEGORY_ID  + " PRIMARY KEY, " +
+                    " (" +
+                    COL_ROW_ID + " integer PRIMARY KEY autoincrement, " +
+                    COL_CATEGORY_ID  + " integer UNIQUE, " +
                     COL_CATEGORY_LABEL +
                     ")";
 
@@ -85,21 +90,21 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         initialValues.put(COL_CATEGORY_LABEL, category.getLabel());
         Log.w(TAG, "Insertando Categoria: " + initialValues.toString());
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.replace(TABLE_CATEGORY, null, initialValues);
+        return db.insert(TABLE_CATEGORY, null, initialValues);
     }
 
-    public long addApplication(ApplicationVO category) {
+    public long addApplication(ApplicationVO app) {
         ContentValues initialValues = new ContentValues();
-        initialValues.put(COL_APP_ID, category.getID());
-        initialValues.put(COL_APP_CATEGORY_ID, category.getCatID());
-        initialValues.put(COL_APP_IMAGE_A, category.getImageAURL());
-        initialValues.put(COL_APP_IMAGE_B, category.getImageBURL());
-        initialValues.put(COL_APP_IMAGE_C, category.getImageCURL());
-        initialValues.put(COL_APP_NAME, category.getName());
-        initialValues.put(COL_APP_TITLE, category.getTitle());
-        initialValues.put(COL_APP_SUMMARY, category.getSummary());
-        initialValues.put(COL_APP_ARTIST, category.getArtist());
-        initialValues.put(COL_APP_RELEASE_DATE, category.getReleaseDate());
+        initialValues.put(COL_APP_ID, app.getID());
+        initialValues.put(COL_APP_CATEGORY_ID, app.getCatID());
+        initialValues.put(COL_APP_IMAGE_A, app.getImageAURL());
+        initialValues.put(COL_APP_IMAGE_B, app.getImageBURL());
+        initialValues.put(COL_APP_IMAGE_C, app.getImageCURL());
+        initialValues.put(COL_APP_NAME, app.getName());
+        initialValues.put(COL_APP_TITLE, app.getTitle());
+        initialValues.put(COL_APP_SUMMARY, app.getSummary());
+        initialValues.put(COL_APP_ARTIST, app.getArtist());
+        initialValues.put(COL_APP_RELEASE_DATE, app.getReleaseDate());
         Log.w(TAG, "Insertando Applicaión: " + initialValues.toString());
         SQLiteDatabase db = this.getWritableDatabase();
         return db.replace(TABLE_APPLICATION, null, initialValues);
@@ -112,5 +117,15 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
     public void clearApplications(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_APPLICATION);
+    }
+
+    public Cursor getAllCategories() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        /*SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        builder.setTables(TABLE_CATEGORY);
+        Cursor cursor = builder.query(db,
+                new String[]{COL_CATEGORY_LABEL}, null, null, null, null, COL_CATEGORY_LABEL);*/
+        Cursor cursor =db.query(TABLE_CATEGORY,new String[]{COL_ROW_ID, COL_CATEGORY_LABEL},null,null,null,null,COL_CATEGORY_LABEL);
+        return cursor;
     }
 }

@@ -3,6 +3,7 @@ package com.grability.android.test;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.grability.android.test.config.Config;
 import com.grability.android.test.database.AppDatabaseHelper;
+import com.grability.android.test.utils.ScreenUtils;
 import com.grability.android.test.vo.ApplicationVO;
 import com.grability.android.test.vo.CategoryVO;
 
@@ -35,6 +37,10 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (ScreenUtils.isTablet(this))
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        else
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_splash);
         if(savedInstanceState==null) {
             Animation anim = AnimationUtils.loadAnimation(this, R.anim.splash_animation);
@@ -131,7 +137,7 @@ public class SplashActivity extends Activity {
                         String appCategoryName=appCategoryAttrs.getString("label");
 
                         CategoryVO category=new CategoryVO(appCategoryID,appCategoryName);
-                        appDatabaseHelper.addCategory(category);
+                        long rowID= appDatabaseHelper.addCategory(category);
 
                         ApplicationVO app=new ApplicationVO(appID, appCategoryID, appName, appImageAURL, appImageBURL, appImageCURL, appSummary, appTitle, appArtist, appReleaseDate);
                         appDatabaseHelper.addApplication(app);
