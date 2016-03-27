@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Prueba Android Grability</string>
+    <string name="splash_loading_message">Cargando</string>
 </resources>
