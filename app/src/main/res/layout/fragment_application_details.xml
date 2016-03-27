@@ -1,0 +1,82 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.grability.android.test.ApplicationDetailsFragment"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin">
+
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageViewApplication"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="75dp"
+        android:layout_marginTop="75dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/textViewTitle"
+        android:textSize="40dp"
+        android:layout_alignTop="@+id/imageViewApplication"
+        android:layout_alignBottom="@+id/imageViewApplication"
+        android:layout_toRightOf="@+id/imageViewApplication"
+        android:layout_marginRight="75dp"
+        android:gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:textColor="@android:color/holo_blue_dark"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/textViewArtist"
+        android:layout_below="@+id/imageViewApplication"
+        android:layout_alignLeft="@+id/imageViewApplication"
+        android:layout_marginTop="35dp"
+        android:textColor="@color/colorAccent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Precio:"
+        android:id="@+id/textViewPrice"
+        android:layout_marginBottom="75dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="75dp"
+        android:textSize="75dp"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/textViewSummary"
+        android:layout_alignLeft="@+id/textViewArtist"
+        android:layout_alignRight="@+id/textViewPrice"
+        android:layout_below="@+id/textViewArtist"
+        android:layout_above="@+id/textViewPrice"
+        android:layout_marginTop="35dp"
+        android:textColor="@color/colorSecondary" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/textViewReleaseDate"
+        android:layout_above="@+id/textViewTitle"
+        android:layout_alignRight="@+id/textViewSummary" />
+
+</RelativeLayout>
