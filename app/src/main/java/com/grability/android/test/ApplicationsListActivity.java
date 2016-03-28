@@ -12,8 +12,17 @@ import android.view.View;
 
 import com.grability.android.test.R;
 import com.grability.android.test.utils.ScreenUtils;
+import com.grability.android.test.vo.ApplicationVO;
 
-public class ApplicationsListActivity extends AppCompatActivity implements ApplicationDetailsFragment.OnFragmentInteractionListener {
+public class ApplicationsListActivity extends AppCompatActivity implements ApplicationsListFragment.OnApplicationsListListener {
+
+    public static final String CATEGORY_ID = "CATEGORY_ID";
+    public static final String CATEGORY_NAME = "CATEGORY_NAME";
+
+    private String categoryID;
+    private String categoryName;
+    private ApplicationDetailsFragment detailsFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +36,39 @@ public class ApplicationsListActivity extends AppCompatActivity implements Appli
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if(findViewById(R.id.application_detail_container)!=null){
-            ApplicationDetailsFragment detailsFragment=new ApplicationDetailsFragment();
-            FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.application_detail_container, detailsFragment);
-            transaction.commit();
-        }
+        categoryName=getIntent().getStringExtra(CATEGORY_NAME);
+        categoryID=getIntent().getStringExtra(CATEGORY_ID);
+
+        getSupportActionBar().setTitle(categoryName);
+
+
+
+
+
+        ApplicationsListFragment detailsFragment = (ApplicationsListFragment) getSupportFragmentManager().findFragmentById(R.id.aplications_list_fragment);
+        detailsFragment.setActivityListener(this);
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
+    @Override
+    public void onApplicationSelected(ApplicationVO applicationVO) {
+        if(findViewById(R.id.application_detail_container)!=null){
+            if(detailsFragment==null) {
+                detailsFragment = new ApplicationDetailsFragment();
+                detailsFragment.setApplication(applicationVO);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.application_detail_container, detailsFragment);
+                transaction.commit();
+            }
+            else{
+                detailsFragment.setApplication(applicationVO);
+            }
+        }
+        else{
+            detailsFragment = new ApplicationDetailsFragment();
+            detailsFragment.setApplication(applicationVO);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            detailsFragment.show(transaction, "dialog");
+        }
     }
 }

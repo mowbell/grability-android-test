@@ -1,6 +1,5 @@
 package com.grability.android.test;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -11,14 +10,23 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.SimpleCursorAdapter;
 
-import com.grability.android.test.R;
 import com.grability.android.test.database.AppDatabaseHelper;
+import com.grability.android.test.vo.ApplicationVO;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class ApplicationsListFragment extends Fragment {
 
+    OnApplicationsListListener listener;
+
+    public void setActivityListener(OnApplicationsListListener listener) {
+        this.listener=listener;
+    }
+
+    public interface OnApplicationsListListener {
+        void onApplicationSelected(ApplicationVO applicationVO);
+    }
     public ApplicationsListFragment() {
     }
 
@@ -36,14 +44,19 @@ public class ApplicationsListFragment extends Fragment {
 
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
 
     private void fillList(View view, Bundle savedInstanceState) {
         final AppDatabaseHelper appDatabaseHelper = new AppDatabaseHelper(this.getActivity());
-        Cursor cursor=appDatabaseHelper.getAllCategories();
-        AbsListView list= (AbsListView) view.findViewById(R.id.listViewApplications);
+        String catID= getActivity().getIntent().getStringExtra(ApplicationsListActivity.CATEGORY_ID);
+        Cursor cursor=appDatabaseHelper.getCategoryApplications(catID);
+        final AbsListView list= (AbsListView) view.findViewById(R.id.listViewApplications);
         // The desired columns to be bound
         String[] columns = new String[] {
-                AppDatabaseHelper.COL_CATEGORY_LABEL
+                AppDatabaseHelper.COL_APP_NAME
         };
 
         // the XML defined views which the data will be bound to
@@ -55,8 +68,17 @@ public class ApplicationsListFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //startActivity(new Intent(getActivity(),ApplicationListActivity.class));
+                Cursor cursor = (Cursor) list.getItemAtPosition(position);
+                ApplicationVO app=ApplicationVO.extract(cursor);
+                if(listener!=null)
+                    listener.onApplicationSelected(app);
             }
         });
+
+
+
+
+
+
     }
 }

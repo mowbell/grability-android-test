@@ -14,5 +14,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:numColumns="4" />
+        android:numColumns="3"
+        android:horizontalSpacing="35dp"
+        android:verticalSpacing="35dp"
+        android:stretchMode="columnWidth"
+        android:layoutMode="opticalBounds"
+        android:stackFromBottom="false" />
 </RelativeLayout>

@@ -1,5 +1,9 @@
 package com.grability.android.test.vo;
 
+import android.database.Cursor;
+
+import com.grability.android.test.database.AppDatabaseHelper;
+
 public class ApplicationVO {
     private int ID;
     private int catID;
@@ -8,7 +12,6 @@ public class ApplicationVO {
     private String imageBURL;
     private String imageCURL;
     private String summary;
-    private String price;
     private String title;
     private String artist;
     private String releaseDate;
@@ -65,5 +68,20 @@ public class ApplicationVO {
 
     public String getReleaseDate() {
         return releaseDate;
+    }
+
+    public static ApplicationVO extract(Cursor cursor){
+        int id = cursor.getInt(cursor.getColumnIndex(AppDatabaseHelper.COL_APP_ID));
+        int catID = cursor.getInt(cursor.getColumnIndex(AppDatabaseHelper.COL_APP_CATEGORY_ID));
+        String name = cursor.getString(cursor.getColumnIndex(AppDatabaseHelper.COL_APP_NAME));
+        String imageAURL = cursor.getString(cursor.getColumnIndex(AppDatabaseHelper.COL_APP_IMAGE_A));
+        String imageBURL = cursor.getString(cursor.getColumnIndex(AppDatabaseHelper.COL_APP_IMAGE_B));
+        String imageCURL = cursor.getString(cursor.getColumnIndex(AppDatabaseHelper.COL_APP_IMAGE_C));
+        String summary = cursor.getString(cursor.getColumnIndex(AppDatabaseHelper.COL_APP_SUMMARY));
+        String title = cursor.getString(cursor.getColumnIndex(AppDatabaseHelper.COL_APP_TITLE));
+        String artist = cursor.getString(cursor.getColumnIndex(AppDatabaseHelper.COL_APP_ARTIST));
+        String releaseDate = cursor.getString(cursor.getColumnIndex(AppDatabaseHelper.COL_APP_RELEASE_DATE));
+
+        return new ApplicationVO(id,catID,name,imageAURL,imageBURL,imageCURL,summary,title,artist,releaseDate);
     }
 }

@@ -1,5 +1,9 @@
 package com.grability.android.test.vo;
 
+import android.database.Cursor;
+
+import com.grability.android.test.database.AppDatabaseHelper;
+
 public class CategoryVO {
     private int ID;
     private String label;
@@ -21,6 +25,10 @@ public class CategoryVO {
         return label;
     }
 
-
+    public static CategoryVO extract(Cursor cursor){
+        int categoryID = cursor.getInt(cursor.getColumnIndex(AppDatabaseHelper.COL_CATEGORY_ID));
+        String categoryName = cursor.getString(cursor.getColumnIndex(AppDatabaseHelper.COL_CATEGORY_LABEL));
+        return new CategoryVO(categoryID,categoryName);
+    }
 
 }

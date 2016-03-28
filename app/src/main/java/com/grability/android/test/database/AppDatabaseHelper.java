@@ -48,7 +48,8 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
     public static final String CREATE_TABLE_APPLICATION_QUERY =
             "CREATE TABLE IF NOT EXISTS " + TABLE_APPLICATION+
                     "(" +
-                    COL_APP_ID  + " PRIMARY KEY, " +
+                    COL_ROW_ID + " integer PRIMARY KEY autoincrement, " +
+                    COL_APP_ID  + " integer UNIQUE, " +
                     COL_APP_CATEGORY_ID  + ", " +
                     COL_APP_NAME  + ", " +
                     COL_APP_IMAGE_A  + ", " +
@@ -121,11 +122,19 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getAllCategories() {
         SQLiteDatabase db = this.getReadableDatabase();
-        /*SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
         builder.setTables(TABLE_CATEGORY);
         Cursor cursor = builder.query(db,
-                new String[]{COL_CATEGORY_LABEL}, null, null, null, null, COL_CATEGORY_LABEL);*/
-        Cursor cursor =db.query(TABLE_CATEGORY,new String[]{COL_ROW_ID, COL_CATEGORY_LABEL},null,null,null,null,COL_CATEGORY_LABEL);
+                new String[]{COL_ROW_ID, COL_CATEGORY_ID, COL_CATEGORY_LABEL}, null, null, null, null, COL_CATEGORY_LABEL);
+        //Cursor cursor =db.query(TABLE_CATEGORY,new String[]{COL_ROW_ID, COL_CATEGORY_ID, COL_CATEGORY_LABEL},null,null,null,null,COL_CATEGORY_LABEL);
+        return cursor;
+    }
+
+    public Cursor getCategoryApplications(String catID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        builder.setTables(TABLE_APPLICATION);
+        Cursor cursor = builder.query(db,null, COL_APP_CATEGORY_ID+"="+catID, null, null, null, COL_APP_NAME);
         return cursor;
     }
 }

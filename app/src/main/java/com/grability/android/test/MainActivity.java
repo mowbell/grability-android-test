@@ -15,6 +15,7 @@ import android.widget.SimpleCursorAdapter;
 
 import com.grability.android.test.database.AppDatabaseHelper;
 import com.grability.android.test.utils.ScreenUtils;
+import com.grability.android.test.vo.CategoryVO;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void fillList() {
         final AppDatabaseHelper appDatabaseHelper = new AppDatabaseHelper(this);
-        Cursor cursor=appDatabaseHelper.getAllCategories();
-        AbsListView list= (AbsListView) findViewById(R.id.listView);
+        final Cursor cursor=appDatabaseHelper.getAllCategories();
+        final AbsListView list= (AbsListView) findViewById(R.id.listView);
         // The desired columns to be bound
         String[] columns = new String[] {
                 AppDatabaseHelper.COL_CATEGORY_LABEL
@@ -47,12 +48,17 @@ public class MainActivity extends AppCompatActivity {
         int[] to = new int[] {
                 android.R.id.text1
         };
-        SimpleCursorAdapter cursorAdapter=new SimpleCursorAdapter(this,android.R.layout.simple_list_item_1,cursor, columns, to);
+        final SimpleCursorAdapter cursorAdapter=new SimpleCursorAdapter(this,android.R.layout.simple_list_item_1,cursor, columns, to);
         list.setAdapter(cursorAdapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(MainActivity.this,ApplicationsListActivity.class));
+                Cursor cursor = (Cursor) list.getItemAtPosition(position);
+                CategoryVO cat= CategoryVO.extract(cursor);
+                Intent intentApps=new Intent(MainActivity.this,ApplicationsListActivity.class);
+                intentApps.putExtra(ApplicationsListActivity.CATEGORY_ID, String.valueOf(cat.getID()));
+                intentApps.putExtra(ApplicationsListActivity.CATEGORY_NAME, cat.getLabel());
+                startActivity(intentApps);
             }
         });
     }
