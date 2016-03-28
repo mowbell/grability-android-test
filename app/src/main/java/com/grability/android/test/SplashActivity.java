@@ -20,6 +20,7 @@ import com.android.volley.toolbox.Volley;
 import com.grability.android.test.config.Config;
 import com.grability.android.test.database.AppDatabaseHelper;
 import com.grability.android.test.utils.ScreenUtils;
+import com.grability.android.test.utils.VolleySingleton;
 import com.grability.android.test.vo.ApplicationVO;
 import com.grability.android.test.vo.CategoryVO;
 
@@ -60,12 +61,12 @@ public class SplashActivity extends Activity {
         Boolean jsonLoaded = settings.getBoolean(GrabilityApplication.PREF_JSON_LOADED,false);
 
 
-        if(!jsonLoaded) {
+        //if(!jsonLoaded) {
             loadStoreApplicationsJSON();
-        }
-        else{
-            startMainActivity();
-        }
+        //}
+        //else{
+        //    startMainActivity();
+        //}
     }
 
     private void loadStoreApplicationsJSON() {
@@ -85,8 +86,7 @@ public class SplashActivity extends Activity {
             }
         });
 
-// Add the request to the queue
-        Volley.newRequestQueue(this).add(stringRequest);
+        VolleySingleton.getInstance().getRequestQueue().add(stringRequest);
     }
 
     public class DBSaveAppsDataAsyncTask extends AsyncTask<String, Integer, Boolean> {

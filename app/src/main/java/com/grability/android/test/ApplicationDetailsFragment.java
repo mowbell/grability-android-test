@@ -10,7 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.grability.android.test.R;
+import com.grability.android.test.utils.VolleySingleton;
 import com.grability.android.test.vo.ApplicationVO;
 
 public class ApplicationDetailsFragment extends DialogFragment {
@@ -88,6 +92,22 @@ public class ApplicationDetailsFragment extends DialogFragment {
                 this.getDialog().setTitle(application.getName());
                 appTitle.setVisibility(View.GONE);
             }
+
+            NetworkImageView avatar = (NetworkImageView)view.findViewById(R.id.imageViewApplication);
+            ImageLoader mImageLoader= VolleySingleton.getInstance().getImageLoader();
+            /*ImageLoader.ImageContainer aa = mImageLoader.get(application.getImageCURL(), new ImageLoader.ImageListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+
+                @Override
+                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+
+                }
+            });*/
+            avatar.setImageUrl(application.getImageCURL(), mImageLoader);
         }
     }
 }
