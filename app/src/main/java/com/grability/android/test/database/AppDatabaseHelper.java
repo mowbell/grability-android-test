@@ -91,7 +91,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         initialValues.put(COL_CATEGORY_LABEL, category.getLabel());
         Log.w(TAG, "Insertando Categoria: " + initialValues.toString());
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.insert(TABLE_CATEGORY, null, initialValues);
+        return db.replace(TABLE_CATEGORY, null, initialValues);
     }
 
     public long addApplication(ApplicationVO app) {

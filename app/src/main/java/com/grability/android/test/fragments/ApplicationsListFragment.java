@@ -1,4 +1,4 @@
-package com.grability.android.test;
+package com.grability.android.test.fragments;
 
 import android.database.Cursor;
 import android.support.v4.app.Fragment;
@@ -10,6 +10,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.SimpleCursorAdapter;
 
+import com.grability.android.test.ApplicationsListActivity;
+import com.grability.android.test.R;
 import com.grability.android.test.database.AppDatabaseHelper;
 import com.grability.android.test.vo.ApplicationVO;
 

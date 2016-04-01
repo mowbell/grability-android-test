@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/aplications_list_fragment"
-    android:name="com.grability.android.test.ApplicationsListFragment"
+    android:name="com.grability.android.test.fragments.ApplicationsListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.grability.android.test.ApplicationDetailsFragment"
+    tools:context=".fragments.ApplicationDetailsFragment"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -29,7 +29,8 @@
         android:textColor="@android:color/holo_blue_dark"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/textViewArtist" />
+        android:layout_alignRight="@+id/textViewArtist"
+        android:layout_marginBottom="@dimen/activity_vertical_margin" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,12 +38,15 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/textViewArtist"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
         android:layout_alignRight="@+id/scrollView"
         android:layout_toRightOf="@+id/imageViewApplication"
         android:layout_above="@+id/scrollView"
         android:gravity="center_vertical|center_horizontal"
-        android:layout_alignTop="@+id/imageViewApplication" />
+        android:layout_alignTop="@+id/imageViewApplication"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -60,7 +64,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/imageViewApplication">
+        android:layout_below="@+id/imageViewApplication"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
 
         <TextView
             android:layout_width="wrap_content"

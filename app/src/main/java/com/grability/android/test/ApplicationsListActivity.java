@@ -1,16 +1,13 @@
 package com.grability.android.test;
 
 import android.content.pm.ActivityInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
-import com.grability.android.test.R;
+import com.grability.android.test.fragments.ApplicationDetailsFragment;
+import com.grability.android.test.fragments.ApplicationsListFragment;
 import com.grability.android.test.utils.ScreenUtils;
 import com.grability.android.test.vo.ApplicationVO;
 
@@ -53,20 +50,13 @@ public class ApplicationsListActivity extends AppCompatActivity implements Appli
     @Override
     public void onApplicationSelected(ApplicationVO applicationVO) {
         if(findViewById(R.id.application_detail_container)!=null){
-            if(detailsFragment==null) {
-                detailsFragment = new ApplicationDetailsFragment();
-                detailsFragment.setApplication(applicationVO);
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.application_detail_container, detailsFragment);
-                transaction.commit();
-            }
-            else{
-                detailsFragment.setApplication(applicationVO);
-            }
+            detailsFragment = ApplicationDetailsFragment.newInstance(applicationVO);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.application_detail_container, detailsFragment);
+            transaction.commit();
         }
         else{
-            detailsFragment = new ApplicationDetailsFragment();
-            detailsFragment.setApplication(applicationVO);
+            detailsFragment = ApplicationDetailsFragment.newInstance(applicationVO);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             detailsFragment.show(transaction, "dialog");
         }

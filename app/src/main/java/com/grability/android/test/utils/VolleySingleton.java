@@ -15,7 +15,7 @@ public class VolleySingleton {
     private ImageLoader mImageLoader;
 
     private VolleySingleton(){
-        mRequestQueue = Volley.newRequestQueue(GrabilityApplication.getAppContext());
+        mRequestQueue = Volley.newRequestQueue(GrabilityApplication.getmInstance().getAppContext());
         mImageLoader = new ImageLoader(this.mRequestQueue, new ImageLoader.ImageCache() {
             private final LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(10);
             public void putBitmap(String url, Bitmap bitmap) {

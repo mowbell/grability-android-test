@@ -2,11 +2,15 @@ package com.grability.android.test;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
@@ -19,6 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.grability.android.test.config.Config;
 import com.grability.android.test.database.AppDatabaseHelper;
+import com.grability.android.test.receivers.ConnectivityChangeReceiver;
 import com.grability.android.test.utils.ScreenUtils;
 import com.grability.android.test.utils.VolleySingleton;
 import com.grability.android.test.vo.ApplicationVO;
@@ -28,9 +33,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.os.Handler;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends AppCompatActivity implements ConnectivityChangeReceiver.OnConnectivityChangeListener {
 
     private static String TAG="SplashActivity";
     private SharedPreferences settings;
@@ -58,15 +65,31 @@ public class SplashActivity extends Activity {
                 android.graphics.PorterDuff.Mode.SRC_IN);
 
         settings = getSharedPreferences(GrabilityApplication.STORE_APPS_PREFERENCES_KEY, 0);
-        Boolean jsonLoaded = settings.getBoolean(GrabilityApplication.PREF_JSON_LOADED,false);
+        Boolean jsonLoaded = settings.getBoolean(GrabilityApplication.PREF_JSON_LOADED, false);
 
 
-        //if(!jsonLoaded) {
+
+        if(GrabilityApplication.getmInstance().isNetworkConnected()) {
             loadStoreApplicationsJSON();
-        //}
-        //else{
-        //    startMainActivity();
-        //}
+        }
+        else if(jsonLoaded){
+            startMainActivity();
+        }
+        else{
+            Toast toast=Toast.makeText(this,"No hay conectividad",Toast.LENGTH_LONG);
+            toast.show();
+            TextView loadingTextView=(TextView) findViewById(R.id.textView);
+            pgBar.setVisibility(View.GONE);
+            loadingTextView.setVisibility(View.GONE);
+
+        }
+
+        ConnectivityChangeReceiver receiver = new ConnectivityChangeReceiver();
+        receiver.setOnConnectivityChangeListener(this);
+        registerReceiver(
+                receiver,
+                new IntentFilter(
+                        ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     private void loadStoreApplicationsJSON() {
@@ -87,6 +110,13 @@ public class SplashActivity extends Activity {
         });
 
         VolleySingleton.getInstance().getRequestQueue().add(stringRequest);
+    }
+
+    @Override
+    public void onChange() {
+        Toast toast=Toast.makeText(this,"Cambio en la Connectividad",Toast.LENGTH_LONG);
+        toast.show();
+
     }
 
     public class DBSaveAppsDataAsyncTask extends AsyncTask<String, Integer, Boolean> {
