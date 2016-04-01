@@ -37,7 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class SplashActivity extends AppCompatActivity implements ConnectivityChangeReceiver.OnConnectivityChangeListener {
+public class SplashActivity extends AppCompatActivity {
 
     private static String TAG="SplashActivity";
     private SharedPreferences settings;
@@ -84,12 +84,7 @@ public class SplashActivity extends AppCompatActivity implements ConnectivityCha
 
         }
 
-        ConnectivityChangeReceiver receiver = new ConnectivityChangeReceiver();
-        receiver.setOnConnectivityChangeListener(this);
-        registerReceiver(
-                receiver,
-                new IntentFilter(
-                        ConnectivityManager.CONNECTIVITY_ACTION));
+
     }
 
     private void loadStoreApplicationsJSON() {
@@ -112,12 +107,7 @@ public class SplashActivity extends AppCompatActivity implements ConnectivityCha
         VolleySingleton.getInstance().getRequestQueue().add(stringRequest);
     }
 
-    @Override
-    public void onChange() {
-        Toast toast=Toast.makeText(this,"Cambio en la Connectividad",Toast.LENGTH_LONG);
-        toast.show();
 
-    }
 
     public class DBSaveAppsDataAsyncTask extends AsyncTask<String, Integer, Boolean> {
         @Override
@@ -216,6 +206,7 @@ public class SplashActivity extends AppCompatActivity implements ConnectivityCha
     private void openMainActivity(){
         Intent mainActivityIntent=new Intent(this,MainActivity.class);
         startActivity(mainActivityIntent);
+        overridePendingTransition(R.anim.splash_in_anim,R.anim.splash_out_anim);
         finish();
     }
 

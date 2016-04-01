@@ -54,12 +54,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor cursor = (Cursor) list.getItemAtPosition(position);
-                CategoryVO cat= CategoryVO.extract(cursor);
-                Intent intentApps=new Intent(MainActivity.this,ApplicationsListActivity.class);
+                CategoryVO cat = CategoryVO.extract(cursor);
+                Intent intentApps = new Intent(MainActivity.this, ApplicationsListActivity.class);
                 intentApps.putExtra(ApplicationsListActivity.CATEGORY_ID, String.valueOf(cat.getID()));
                 intentApps.putExtra(ApplicationsListActivity.CATEGORY_NAME, cat.getLabel());
                 startActivity(intentApps);
+
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.splash_in_anim,R.anim.splash_out_anim);
     }
 }

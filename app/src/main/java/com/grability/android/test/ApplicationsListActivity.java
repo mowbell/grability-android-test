@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.grability.android.test.fragments.ApplicationDetailsFragment;
 import com.grability.android.test.fragments.ApplicationsListFragment;
@@ -46,7 +47,22 @@ public class ApplicationsListActivity extends AppCompatActivity implements Appli
         detailsFragment.setActivityListener(this);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
+            return true;
+        }
+        return false;
+    }
     @Override
     public void onApplicationSelected(ApplicationVO applicationVO) {
         if(findViewById(R.id.application_detail_container)!=null){
