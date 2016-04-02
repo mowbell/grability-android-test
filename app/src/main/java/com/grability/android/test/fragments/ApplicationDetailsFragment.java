@@ -8,6 +8,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -129,6 +134,18 @@ public class ApplicationDetailsFragment extends DialogFragment {
                 }
             });*/
             avatar.setImageUrl(appImage, mImageLoader);
+
+            Animation animLayout = AnimationUtils.loadAnimation(getActivity(), R.anim.app_details_anim);
+            animLayout.reset();
+            RelativeLayout ly = (RelativeLayout) view;
+            ly.clearAnimation();
+            ly.startAnimation(animLayout);
+
+            Animation animSummary = AnimationUtils.loadAnimation(getActivity(), R.anim.app_details_summary_anim);
+            animSummary.reset();
+            ScrollView sv = (ScrollView) view.findViewById(R.id.scrollViewSummary);
+            sv.clearAnimation();
+            sv.startAnimation(animSummary);
         }
     }
 }

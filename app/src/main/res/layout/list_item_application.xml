@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:id="@+id/imageViewAppIcon"
+        android:layout_margin="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:id="@+id/textViewAppName"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical|center_horizontal|left"
+        android:padding="8dp" />
+</LinearLayout>

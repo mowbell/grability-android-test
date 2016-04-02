@@ -63,8 +63,10 @@ public class GrabilityApplication extends Application  implements ConnectivityCh
 
     @Override
     public void onChange() {
-        Toast toast=Toast.makeText(this,"Cambio en la Connectividad",Toast.LENGTH_LONG);
-        toast.show();
+        if(!isNetworkConnected()) {
+            Toast toast = Toast.makeText(this, "Se ha perdido la conexión", Toast.LENGTH_LONG);
+            toast.show();
+        }
 
     }
 

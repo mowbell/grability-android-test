@@ -12,6 +12,7 @@ import android.widget.SimpleCursorAdapter;
 
 import com.grability.android.test.ApplicationsListActivity;
 import com.grability.android.test.R;
+import com.grability.android.test.adapters.ApplicationCursorAdapter;
 import com.grability.android.test.database.AppDatabaseHelper;
 import com.grability.android.test.vo.ApplicationVO;
 
@@ -57,15 +58,8 @@ public class ApplicationsListFragment extends Fragment {
         Cursor cursor=appDatabaseHelper.getCategoryApplications(catID);
         final AbsListView list= (AbsListView) view.findViewById(R.id.listViewApplications);
         // The desired columns to be bound
-        String[] columns = new String[] {
-                AppDatabaseHelper.COL_APP_NAME
-        };
 
-        // the XML defined views which the data will be bound to
-        int[] to = new int[] {
-                android.R.id.text1
-        };
-        SimpleCursorAdapter cursorAdapter=new SimpleCursorAdapter(this.getActivity(),android.R.layout.simple_list_item_1,cursor, columns, to);
+        ApplicationCursorAdapter cursorAdapter=new ApplicationCursorAdapter(this.getActivity(),cursor);
         list.setAdapter(cursorAdapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
